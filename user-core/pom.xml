@@ -23,6 +23,7 @@
             <groupId>org.axonframework.extensions.mongo</groupId>
             <artifactId>axon-mongo</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>
