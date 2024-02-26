@@ -23,21 +23,21 @@ public class UserEventHandlerImpl implements UserEventHandler {
   @Override
   @EventHandler
   public void registerUser(final UserRegisteredEvent event) {
-    log.info("on(registerUser={})", event);
+    log.info("registerUser(event={})", event);
     this.userRepository.save(event.user());
   }
 
   @Override
   @EventHandler
   public void updateUser(final UserUpdatedEvent event) {
-    log.info("on(updateUser={})", event);
+    log.info("updateUser(event={})", event);
     this.userRepository.save(event.user());
   }
 
   @Override
   @EventHandler
   public void deleteUserById(final UserRemovedEvent event) {
-    log.info("on(deleteUserById={})", event);
+    log.info("deleteUserById(event={})", event);
     this.userRepository.deleteById(event.id());
   }
 

@@ -6,3 +6,8 @@ spring:
       host: localhost
       port: 27017
       database: user
+axon:
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson

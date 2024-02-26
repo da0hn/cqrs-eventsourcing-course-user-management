@@ -3,12 +3,16 @@ package dev.da0hn.user.core.configuration;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import org.axonframework.eventhandling.tokenstore.TokenStore;
+import org.axonframework.eventsourcing.eventstore.EmbeddedEventStore;
+import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
 import org.axonframework.extensions.mongo.DefaultMongoTemplate;
 import org.axonframework.extensions.mongo.MongoTemplate;
+import org.axonframework.extensions.mongo.eventsourcing.eventstore.MongoEventStorageEngine;
 import org.axonframework.extensions.mongo.eventsourcing.eventstore.MongoFactory;
 import org.axonframework.extensions.mongo.eventsourcing.eventstore.MongoSettingsFactory;
 import org.axonframework.extensions.mongo.eventsourcing.tokenstore.MongoTokenStore;
 import org.axonframework.serialization.Serializer;
+import org.axonframework.spring.config.SpringAxonConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,20 +48,41 @@ public class AxonConfiguration {
   }
 
   @Bean
-  public MongoTemplate axonMongoTemplate() {
-    return DefaultMongoTemplate.builder()
-      .mongoDatabase(this.mongo(), this.mongoDatabase)
+  public TokenStore tokenStore(
+    final Serializer eventSerializer,
+    final MongoClient mongoClient
+  ) {
+    return MongoTokenStore.builder()
+      .mongoTemplate(this.axonServerMongoTemplate(mongoClient))
+      .serializer(eventSerializer)
       .build();
   }
 
   @Bean
-  public TokenStore tokenStore(
-    final Serializer eventSerializer,
-    final MongoTemplate mongoTemplate
+  public EventStorageEngine storageEngine(
+    final MongoClient mongoClient,
+    final Serializer serializer
   ) {
-    return MongoTokenStore.builder()
-      .mongoTemplate(mongoTemplate)
-      .serializer(eventSerializer)
+    return MongoEventStorageEngine.builder()
+      .mongoTemplate(this.axonServerMongoTemplate(mongoClient))
+      .eventSerializer(serializer)
+      .build();
+  }
+
+  @Bean
+  public EmbeddedEventStore eventStore(
+    final EventStorageEngine storageEngine,
+    final SpringAxonConfiguration configuration
+  ) {
+    return EmbeddedEventStore.builder()
+      .storageEngine(storageEngine)
+      .messageMonitor(configuration.getObject().messageMonitor(Configuration.class, "eventStore"))
+      .build();
+  }
+
+  private MongoTemplate axonServerMongoTemplate(final MongoClient client) {
+    return DefaultMongoTemplate.builder()
+      .mongoDatabase(client, this.mongoDatabase)
       .build();
   }
 

@@ -4,8 +4,7 @@ import dev.da0hn.user.core.models.User;
 import lombok.Builder;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-@Builder
-
+@Builder(toBuilder = true)
 public record RegisterUserCommand(
   @TargetAggregateIdentifier
   String id,
