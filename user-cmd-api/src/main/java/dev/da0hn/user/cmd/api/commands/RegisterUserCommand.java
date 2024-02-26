@@ -1,6 +1,7 @@
 package dev.da0hn.user.cmd.api.commands;
 
 import dev.da0hn.user.core.models.User;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
@@ -8,6 +9,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 public record RegisterUserCommand(
   @TargetAggregateIdentifier
   String id,
+  @NotNull
   User user
 ) {
 }
