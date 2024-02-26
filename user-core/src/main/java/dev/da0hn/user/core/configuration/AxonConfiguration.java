@@ -82,7 +82,7 @@ public class AxonConfiguration {
 
   private MongoTemplate axonServerMongoTemplate(final MongoClient client) {
     return DefaultMongoTemplate.builder()
-      .mongoDatabase(client, this.mongoDatabase)
+      .mongoDatabase(client, "axon-event-store") // TODO: move to application.yml
       .build();
   }
 
