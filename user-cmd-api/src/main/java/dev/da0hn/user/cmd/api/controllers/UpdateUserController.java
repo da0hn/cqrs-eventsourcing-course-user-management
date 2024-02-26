@@ -1,6 +1,7 @@
 package dev.da0hn.user.cmd.api.controllers;
 
 import dev.da0hn.user.cmd.api.commands.UpdateUserCommand;
+import dev.da0hn.user.cmd.api.dto.BaseResponse;
 import dev.da0hn.user.cmd.api.dto.RegisterUserResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class UpdateUserController {
   }
 
   @PutMapping("/{user-id}")
-  public ResponseEntity<RegisterUserResponse> updateUser(
+  public ResponseEntity<BaseResponse> updateUser(
     @PathVariable("user-id") final String userId,
     @RequestBody @Valid final UpdateUserCommand command
   ) {
@@ -39,8 +40,7 @@ public class UpdateUserController {
     this.commandGateway.sendAndWait(commandWithId);
 
     final var response = RegisterUserResponse.builder()
-      .id(userId)
-      .message("User successfully registered")
+      .message("User successfully updated")
       .build();
 
     return ResponseEntity.ok(response);
