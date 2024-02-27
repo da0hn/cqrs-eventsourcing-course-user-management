@@ -22,7 +22,7 @@ public class UserQueryHandlerImpl implements UserQueryHandler {
   @Override
   @QueryHandler
   public UserLookupResponse searchUserById(final SearchUserByIdQuery query) {
-    log.info("getUserById(query={})", query);
+    log.info("searchUserById(query={})", query);
     return this.userRepository.findById(query.id())
       .map(UserLookupResponse::fromUser)
       .orElseThrow(() -> new IllegalArgumentException("User not found"));
