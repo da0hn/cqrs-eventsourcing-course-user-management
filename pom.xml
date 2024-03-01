@@ -51,6 +51,11 @@
                 <version>${axon-mongo-spring-boot-starter.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.axonframework</groupId>
+                <artifactId>axon-spring-boot-starter</artifactId>
+                <version>${axon-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>dev.da0hn</groupId>
                 <artifactId>user-core</artifactId>
                 <version>1.0.0</version>
@@ -59,11 +64,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>org.axonframework</groupId>
-            <artifactId>axon-spring-boot-starter</artifactId>
-            <version>${axon-spring-boot-starter.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
