@@ -1,0 +1,57 @@
+server:
+  port: 9000
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: user
+  security:
+    oauth2:
+      authorizationserver:
+        issuer: http://127.0.0.1:9000
+        client:
+          user-cmd-client:
+            registration:
+              client-id: user-cmd-client
+              # https://bcrypt-generator.com/ -> user-cmd-client
+              client-secret: "$2a$12$wdGn4ZAyhyz4RwthwwVPwuhrXW2tyUkxy2qT8HxU4.eQrFR1pQlLa"
+              client-name: User Command Client
+              client-authentication-methods:
+                - client_secret_basic
+              authorization-grant-types:
+                - authorization_code
+                - refresh_token
+                - client_credentials
+              redirect-uris:
+                - http://127.0.0.1:8081/login/oauth2/code/user-cmd-client
+                - http://127.0.0.1:8081/authorized
+              scopes:
+                - openid
+                - profile
+                - users.write
+          user-query-client:
+            registration:
+              client-id: user-query-client
+              # https://bcrypt-generator.com/ -> user-query-client
+              client-secret: "$2a$12$vcQIJIMaM3R2fUId9R/6remKhrtHQpzDto.BNvmk/qJL1hRe0AE2y"
+              client-name: User Query Client
+              client-authentication-methods:
+                - client_secret_basic
+              authorization-grant-types:
+                - authorization_code
+                - client_credentials
+                - refresh_token
+              redirect-uris:
+                - http://127.0.0.1:8082/login/oauth2/code/user-query-client
+                - http://127.0.0.1:8082/authorized
+              scopes:
+                - openid
+                - profile
+                - users.read
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
